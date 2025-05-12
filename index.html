@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Retro Desktop with Player</title>
+<title>Retro 80s Player</title>
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <style>
 body {
@@ -72,7 +72,7 @@ body {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .active-window {
@@ -96,7 +96,7 @@ body {
 </head>
 <body>
 
-<!-- Window -->
+<!-- Player Window -->
 <div id="player-window" class="window" style="top: 50px; left: 50px;">
   <div class="header noselect">
     <span>80s Music Player</span>
@@ -113,10 +113,9 @@ body {
     <button id="playBtn" class="retro-btn">▶️ Play</button>
     <button id="stopBtn" class="retro-btn">⏹ Stop</button>
 
-    <!-- Hidden Audio -->
-    <audio id="audioPlayer">
+    <!-- Hidden Audio (no controls shown) -->
+    <audio id="audioPlayer" style="display:none;">
       <source src="https://ice1.somafm.com/u80s-128-mp3" type="audio/mpeg">
-      Your browser does not support the audio element.
     </audio>
   </div>
 </div>
@@ -131,7 +130,7 @@ body {
 </div>
 
 <script>
-// Dragging
+// Dragging windows
 let dragTarget = null;
 let offsetX = 0, offsetY = 0;
 
@@ -155,11 +154,11 @@ document.addEventListener('mouseup', () => {
   dragTarget = null;
 });
 
-// Minimize / Maximize / Close
+// Minimize / Maximize / Close buttons
 document.querySelectorAll('.button-minimize').forEach(btn => {
   btn.addEventListener('click', () => {
     const win = btn.closest('.window');
-    win.querySelector('.content').classList.toggle('hidden');
+    win.classList.add('hidden');
   });
 });
 
@@ -183,19 +182,19 @@ document.querySelectorAll('.button-maximize').forEach(btn => {
 document.querySelectorAll('.button-close').forEach(btn => {
   btn.addEventListener('click', () => {
     const win = btn.closest('.window');
-    win.style.display = 'none';
+    win.classList.add('hidden');
   });
 });
 
-// Taskbar toggle
+// Taskbar button toggle
 const taskbarBtn = document.getElementById('player-taskbar-btn');
 const playerWindow = document.getElementById('player-window');
 
 taskbarBtn.addEventListener('click', () => {
-  if (playerWindow.style.display === 'none') {
-    playerWindow.style.display = 'block';
+  if (playerWindow.classList.contains('hidden')) {
+    playerWindow.classList.remove('hidden');
   } else {
-    playerWindow.style.display = 'none';
+    playerWindow.classList.add('hidden');
   }
 });
 
