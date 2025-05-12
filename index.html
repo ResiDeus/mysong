@@ -3,12 +3,56 @@
 <head>
   <meta charset="UTF-8">
   <title>My Song</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #2d2d2d, #4d4d4d);
+      color: white;
+      font-family: 'Tahoma', sans-serif;
+      text-align: center;
+      padding-top: 100px;
+    }
+
+    .player {
+      background-color: #1a1a1a;
+      border: 4px solid #808080;
+      border-radius: 15px;
+      width: 350px;
+      margin: 0 auto;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    h1 {
+      font-size: 20px;
+      color: #00ffff;
+      text-shadow: 1px 1px 2px #000;
+    }
+
+    audio {
+      width: 100%;
+      margin-top: 15px;
+      border: 2px solid #00ffff;
+      border-radius: 5px;
+    }
+
+    .credits {
+      margin-top: 50px;
+      font-size: 12px;
+      color: #ccc;
+    }
+  </style>
 </head>
-<body style="text-align:center; padding-top:50px;">
-  <h1>Enjoy My Song 🎵</h1>
-  <audio controls>
-    <source src="song.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
+<body>
+  <div class="player">
+    <h1>🎵 My Cool Song 🎵</h1>
+    <audio controls>
+      <source src="song.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+  </div>
+
+  <div class="credits">
+    Made with ❤️ by Me — Powered by GitHub Pages
+  </div>
 </body>
 </html>
