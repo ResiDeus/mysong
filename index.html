@@ -2,114 +2,91 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Nightwave Plaza - Custom Player</title>
+<title>Nightwave Plaza Clone</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.css" rel="stylesheet">
 <style>
   body {
+    margin: 0;
     background-color: teal;
     font-family: sans-serif;
     color: white;
-    margin: 0;
-    padding: 0;
-  }
-  .window {
-    border: 2px solid #000;
-    background-color: #C0C0C0;
-    width: 450px;
-    margin: 20px auto;
-    padding: 10px;
-  }
-  .header {
-    background-color: navy;
-    color: white;
-    padding: 4px;
-    font-weight: bold;
-  }
-  .cover {
-    width: 100%;
-    border: 2px solid #000;
-  }
-  .player-meta {
-    margin-top: 10px;
-    background-color: #EEE;
-    color: black;
-    padding: 6px;
-  }
-  button {
-    margin: 4px;
-    padding: 6px 10px;
-    background-color: #DDD;
-    border: 1px solid #000;
-    cursor: pointer;
   }
   .taskbar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: #333;
-    color: white;
     display: flex;
     align-items: center;
-    padding: 4px;
+    background-color: #008080;
+    padding: 2px;
+    border-top: 2px solid #004d4d;
+    border-bottom: 2px solid #00cccc;
   }
   .taskbar button {
-    margin: 0 4px;
+    display: flex;
+    align-items: center;
+    background-color: #00a0a0;
+    border: 1px solid #004d4d;
+    color: white;
+    margin-right: 4px;
+    padding: 2px 6px;
+    cursor: pointer;
   }
-  .news-window {
-    border: 2px solid #000;
-    background-color: #FFF;
-    color: black;
+  .taskbar .local-time {
+    margin-left: auto;
+    padding: 2px 6px;
+    background-color: #00a0a0;
+    border: 1px solid #004d4d;
+  }
+  .window {
+    background-color: #004d4d;
+    border: 2px solid #00cccc;
+    margin: 10px;
     padding: 10px;
-    width: 350px;
-    margin: 20px auto;
+  }
+  .window h2 {
+    margin-top: 0;
+  }
+  .player-controls button {
+    margin-right: 5px;
   }
 </style>
 </head>
 <body>
 
+<!-- Taskbar -->
+<div class="taskbar">
+  <button>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAGbUExURUxpcZac6dOV1Ifqz5So6Ifp3JqY6Kiz3K6z3Zmc6Jmb6J+Y5uyWzong4eqX1Yfq0+eY5ZSm5+6Y1+2Xx+6XxO2X1e+YyYjo5Yza6onn5OuW0orh6IzS6Y/G6eyY4Ifo2Ifq3Yfp1tiX5eiZ54fpzofpzMWX586X55Sj6duZ6pSo6aaX6Yzc66yX6aGV5o6955Ct5ozV6Y/K6rKX6Yfq1bmX6ayU45Wf6emX4ZWe6bWV5cGY6YfqzuyZ6MmY6pK16cCW5+SW4JSr6emZ6b+X6Ynk6JyY6Z+X6ZmY6cGY6qmX6a6X6eua6dOY6sqY6rOX6baX6b2X6Zae6d6a6uSa6pia6bGX6aWX6e+a55eb6ema6bqX6dqZ6onl6Ynn6KeX6aKX6ZSn6ZWh6c2Y6pK76pHD6u+a4I/K6o7S65Ow6ZSq6ZSk6dCY64jp5caY6o/N6ozc68SY6u+a5JSt6ZDH6o3Y65G/6pOz6orh6+Ga6pWg6Yjq4JK36vCZ2fCZ0u6a6Y3V64ve69yZ6ofq2diZ6taZ6pK16eea6qmW6I/XqXQAAABGdFJOUwD1GVYZG70HA1aWElYSHf1WIfeWtsT8tsSWElVWnqam9dtl9DtlO1ZlZTv19MT5trb1+VbEpqWl2tra2/Tb9NrzO/M8//lEUVHVAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAV3pUWHRSYXcgcHJvZmlsZSB0eXBlIGlwdGMAAHic4/IMCHFWKCjKT8vMSeVSAAMjCy5jCxMjE0uTFAMTIESANMNkAyOzVCDL2NTIxMzEHMQHy4BIoEouAOoXEXTyQjWVAAACJ0lEQVQ4T5WTaX/SQBCHAyIQQHrZ2tse2tZ63/eNCeEI4QohKTWIxqOAgrUtYKlKKX7szmyWlmDf+LzM/H8zz85umP/B7X85uLCwvGR30w9WJn2zDxZra1HxxaN7rJd+PMblGx02Ip1au1DRYn+vOVkXLVDsI2NNo6qmoEFACmf4oM3joCWC/+xYc7dKG8ghnsu+y98YokXAjnVs8CcqCtCASyc2vh9cP+rhGmliXVFr+8VyPBbSocGX7a3Nma6Hb3jXMAwl0km2C4IkgwE0+Pnh681psz45ahjVqqKQCaCoc+l6/vP7zU/fxs+QwCB0V5S9iGXCwdbHX7/fTGHdPavsAREVJ8AZ3nYn/NhZP4879T+NAKqqppLmEuAM5oSd9fnTEHi9qKodIAVrhgmgkK3nt3FCrjR3ARVSJrUkKGi9CrlS6xQELiUpa/8oNFoXMdBu7xPa5hoh0FVoDGBguVgsRgnFsmULuVJjAEcsPRNFsYCIleM9mwpPUNL+WKhUygQBbzJIHFGh1CLHdN/V4vFAQADiPRdBHMmimNuxmCRpGsS0fkdUYBjv1bAsxzAlyVbHO+ZlMezlUCgchpQctjjOmQ3gwXh0PZMJIRl8bV3HiaOH63ByPK9jSu9xPIdHoAw5gxwHIZ7H52g69tahh8eWDhKo45UJSx08WKctmwaI463xqb4fB/Cy9x/aEon6xqvnM9P0fH24Havsygq76jj55z0RhjkEuM7qLepbk98AAAAASUVORK5CYII=" alt="" width="16" height="16">
+    <div class="title">Nightwave Plaza</div>
+  </button>
+  <div class="local-time" id="local-time">--:--</div>
+</div>
+
 <!-- Player Window -->
 <div class="window">
-  <div class="header">Nightwave Plaza</div>
-  <img src="https://i.plaza.one/artwork_986b6ba19b87a0719da7278d-1742284518.jpg" alt="artwork" class="cover">
-
-  <!-- Audio Stream -->
-  <audio id="player" src="https://ice1.somafm.com/u80s-128-mp3" autoplay></audio>
-
-  <div class="player-meta">
-    <div><strong>Artist:</strong> Whalez</div>
-    <div><strong>Title:</strong> S U N D A Y</div>
-    <div><strong>Time:</strong> Streaming Live</div>
-
-    <div style="margin-top: 6px;">
-      <button onclick="document.getElementById('player').play()">▶ Play</button>
-      <button onclick="document.getElementById('player').pause()">⏸ Pause</button>
-      <button>❤️ Like (2)</button>
-      <button>👤 User</button>
-      <button>⚙️ Settings</button>
-    </div>
-  </div>
-
-  <div class="statusbar">Listeners: 190</div>
+  <h2>Now Playing</h2>
+  <p><strong>Stream:</strong> SomaFM - Underground 80s</p>
+  <audio id="audio-player" src="https://ice1.somafm.com/u80s-128-mp3" controls style="width: 100%;"></audio>
 </div>
 
 <!-- News Window -->
-<div class="news-window">
+<div class="window">
+  <h2>News</h2>
   <p><strong>Login Issue</strong></p>
-  <p>Login issue has been fixed. You can now try logging into your account again.  
-  If you still can’t sign in, please contact support at <a href="mailto:mail@plaza.one">mail@plaza.one</a>.</p>
+  <p>Login issue has been fixed. You can now try logging into your account again. If you still can’t sign in, please contact support at <a href="mailto:mail@plaza.one" style="color: #00ffff;">mail@plaza.one</a>.</p>
   <p>Thank you for your patience!</p>
-  <div style="display: flex; justify-content: space-between;">
-    <div>mr. plaza</div>
-    <div>Apr 10, 2025</div>
-  </div>
+  <div>– mr. plaza (Apr 10, 2025)</div>
 </div>
 
-<!-- Taskbar -->
-<div class="taskbar">
-  <button>Nightwave Plaza</button>
-  <button>News</button>
-  <div style="margin-left: auto; padding-right: 8px;">4:29 PM</div>
-</div>
+<script>
+// Live clock updater
+function updateClock() {
+  const time = new Date();
+  const hours = time.getHours();
+  const minutes = String(time.getMinutes()).padStart(2, '0');
+  document.getElementById('local-time').textContent = `${hours}:${minutes}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+</script>
 
 </body>
 </html>
