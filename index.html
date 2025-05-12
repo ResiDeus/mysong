@@ -50,6 +50,12 @@ body {
   background: #e0e0e0;
 }
 
+.player-buttons button {
+  margin: 2px;
+  width: 80px;
+}
+
+/* Taskbar styling like Plaza */
 .taskbar {
   position: fixed;
   bottom: 0;
@@ -60,28 +66,41 @@ body {
   border-top: 2px solid #000;
   display: flex;
   align-items: center;
-  padding: 2px;
+  padding: 0 4px;
 }
 
-.taskbar button {
-  margin-right: 5px;
+.divider {
+  width: 2px;
+  height: 70%;
+  background: gray;
+  margin: 0 6px;
+}
+
+.taskbar-btn {
+  display: flex;
+  align-items: center;
+  padding: 2px 6px;
   background: #c0c0c0;
   border: 1px solid #fff;
-  padding: 2px 6px;
+  font-size: 13px;
 }
 
-#taskbarTime {
-  margin-left: auto;
-  margin-right: 10px;
-}
-
-button:active {
+.taskbar-btn.active {
   border: 2px inset #000;
 }
 
-.player-buttons button {
-  margin: 2px;
-  width: 80px;
+.taskbar-btn img {
+  margin-right: 4px;
+}
+
+.taskbar-time {
+  margin-left: auto;
+  width: 60px;
+  text-align: center;
+  border: 1px solid #fff;
+  background: #c0c0c0;
+  padding: 2px 0;
+  font-size: 13px;
 }
 </style>
 </head>
@@ -107,8 +126,12 @@ button:active {
 </div>
 
 <div class="taskbar">
-  <button id="taskbarAppBtn"><img src="https://win98icons.alexmeub.com/icons/png/media_cd_blue-0.png" width="16"> Nightwave Plaza</button>
-  <div id="taskbarTime"></div>
+  <div class="divider"></div>
+  <button id="taskbarAppBtn" class="taskbar-btn active">
+    <img src="https://win98icons.alexmeub.com/icons/png/media_cd_blue-0.png" width="16" height="16">
+    <span>Nightwave Plaza</span>
+  </button>
+  <div id="taskbarTime" class="taskbar-time"></div>
 </div>
 
 <script>
