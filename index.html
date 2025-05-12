@@ -137,6 +137,9 @@ body {
   padding: 0 6px;
   margin-right: 4px;
 }
+.taskbar button.active {
+  border: 2px inset #808080;
+}
 .taskbar .divider {
   width: 2px;
   background: gray;
@@ -145,6 +148,10 @@ body {
 .taskbar .local-time {
   margin-left: auto;
   margin-right: 10px;
+}
+.taskbar button img {
+  width: 16px;
+  height: 16px;
 }
 </style>
 </head>
@@ -191,7 +198,7 @@ body {
 
   <div class="taskbar d-flex flex-nowrap">
     <div style="flex: 0 0 10px;"><div class="divider mx-1"></div></div>
-    <button ontouchstart="" class="noselect mr-1 active" style="flex: 1 1 auto;">
+    <button id="taskbarBtn" class="noselect mr-1 active" style="flex: 1 1 auto;">
       <img src="https://icons.iconarchive.com/icons/itweek/retro/16/Radio-icon.png" alt="">
       <div class="title ml-2">Radio Player</div>
     </button>
@@ -237,15 +244,30 @@ document.addEventListener('mousemove', (e) => {
 });
 document.addEventListener('mouseup', () => { isDragging = false; });
 
-// Minimize
-document.getElementById('minimizeBtn').addEventListener('click', () => {
+// Minimize / Restore
+const minimizeBtn = document.getElementById('minimizeBtn');
+const taskbarBtn = document.getElementById('taskbarBtn');
+
+minimizeBtn.addEventListener('click', () => {
   windowEl.style.display = 'none';
+  taskbarBtn.classList.remove('active');
 });
 
-// Maximize toggle fullscreen
-document.getElementById('maximizeBtn').addEventListener('click', () => {
+taskbarBtn.addEventListener('click', () => {
+  if (windowEl.style.display === 'none') {
+    windowEl.style.display = 'block';
+    taskbarBtn.classList.add('active');
+  } else {
+    windowEl.style.display = 'none';
+    taskbarBtn.classList.remove('active');
+  }
+});
+
+// Maximize toggles full screen on the website (not the window)
+const maximizeBtn = document.getElementById('maximizeBtn');
+maximizeBtn.addEventListener('click', () => {
   if (!document.fullscreenElement) {
-    windowEl.requestFullscreen();
+    document.documentElement.requestFullscreen();
   } else {
     document.exitFullscreen();
   }
