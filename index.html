@@ -2,74 +2,109 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Vaporwave Radio</title>
+  <title>Vaporwave Plaza</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Google Font for retro look -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
 
   <style>
-    body {
+    /* Basic Reset + Background GIF */
+    body, html {
       margin: 0;
-      height: 100vh;
-      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-      color: #ffffff;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
       font-family: 'Orbitron', sans-serif;
+    }
+
+    body {
+      background: url('https://gif.plaza.one/69.gif') no-repeat center center fixed;
+      background-size: cover;
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
+    }
+
+    /* Player Window Styling */
+    .player-window {
+      background: rgba(0, 0, 0, 0.7);
+      border: 2px solid #00ffff;
+      border-radius: 10px;
+      padding: 20px;
+      width: 300px;
+      box-shadow: 0 0 15px #00ffff;
+      color: #fff;
       text-align: center;
     }
 
-    @keyframes gradientBG {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
-    }
-
-    h1 {
-      font-size: 3em;
+    .player-window h1 {
+      font-size: 1.5em;
+      margin-bottom: 15px;
       color: #00ffff;
-      text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
-      margin-bottom: 20px;
+      text-shadow: 0 0 5px #00ffff, 0 0 10px #ff00ff;
     }
 
-    audio {
-      width: 300px;
-      filter: drop-shadow(0 0 5px #00ffff);
+    .cover-art {
+      width: 100%;
+      border: 2px solid #00ffff;
+      margin-bottom: 15px;
     }
 
-    .credits {
-      position: absolute;
-      bottom: 10px;
-      font-size: 0.9em;
-      color: #aaa;
-      opacity: 0.5;
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .button {
+      background: #00ffff;
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      text-transform: uppercase;
+      box-shadow: 0 0 5px #00ffff;
+    }
+
+    .button:hover {
+      background: #ff00ff;
+      box-shadow: 0 0 10px #ff00ff;
+      color: #fff;
     }
   </style>
 </head>
+
 <body>
 
-  <h1>Vaporwave Radio</h1>
+  <div class="player-window">
+    <h1>Vaporwave Plaza</h1>
+    <img class="cover-art" src="https://i.plaza.one/artwork_c0421475f85709aa46ebed91-1742281461.jpg" alt="Cover Art">
 
-  <audio id="audio" controls autoplay loop>
-    <source src="https://ice1.somafm.com/groovesalad-128-mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
+    <div class="controls">
+      <button id="playBtn" class="button">Play</button>
+      <button id="pauseBtn" class="button">Pause</button>
+    </div>
 
-  <div class="credits">
-    Streaming: Groove Salad @ SomaFM
+    <!-- Hidden audio element -->
+    <audio id="audio" loop>
+      <source src="https://ice1.somafm.com/groovesalad-128-mp3" type="audio/mpeg">
+    </audio>
   </div>
 
   <script>
+    const playBtn = document.getElementById('playBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
     const audio = document.getElementById('audio');
-    // Optional: resume on click if browser blocks autoplay
-    document.body.addEventListener('click', () => {
-      if (audio.paused) {
-        audio.play();
-      }
+
+    playBtn.addEventListener('click', () => {
+      audio.play();
+    });
+
+    pauseBtn.addEventListener('click', () => {
+      audio.pause();
     });
   </script>
 
