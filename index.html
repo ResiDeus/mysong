@@ -1,61 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My Vaporwave Radio</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Nightwave Plaza Clone</title>
+<style>
+  body {
+    background-color: teal;
+    background-image: url('https://gif.plaza.one/70.gif');
+    font-family: sans-serif;
+    margin: 0;
+    color: black;
+  }
 
-  <!-- Optional Retro Win98 UI Styles -->
-  <link rel="stylesheet" href="https://unpkg.com/98.css">
+  .window {
+    border: 2px solid #000;
+    background: #C0C0C0;
+    width: 450px;
+    margin: 10px auto;
+    box-shadow: 4px 4px #333;
+  }
 
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background: url('https://gif.plaza.one/70.gif') center center / cover no-repeat;
-      font-family: sans-serif;
-      color: #fff;
-    }
-    .player-window {
-      width: 400px;
-      margin: 50px auto;
-      background-color: rgba(0,0,0,0.6);
-      border: 2px solid #00ffff;
-      border-radius: 8px;
-      padding: 20px;
-    }
-    .player-window h1 {
-      font-size: 18px;
-      margin-bottom: 10px;
-      color: #00ffff;
-      text-align: center;
-    }
-    audio {
-      width: 100%;
-    }
-  </style>
+  .header {
+    background: #000080;
+    color: white;
+    padding: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: move;
+  }
+
+  .buttons button {
+    background: gray;
+    border: 1px solid black;
+    width: 16px;
+    height: 16px;
+    margin-left: 2px;
+  }
+
+  .menu-bar a {
+    margin-right: 10px;
+    text-decoration: none;
+    color: black;
+  }
+
+  .content {
+    padding: 8px;
+    background: white;
+  }
+
+  .player-meta {
+    margin-top: 10px;
+  }
+
+  .player-meta div {
+    margin-bottom: 4px;
+  }
+
+  .taskbar {
+    display: flex;
+    background: #C0C0C0;
+    border-top: 2px solid black;
+    padding: 4px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+
+  .taskbar button {
+    flex: 1;
+    margin-right: 4px;
+    padding: 4px;
+    background: gray;
+    border: 1px solid black;
+  }
+
+  .taskbar .local-time {
+    margin-left: auto;
+    padding: 4px;
+    background: white;
+    border: 1px solid black;
+  }
+
+  img.cover {
+    width: 100%;
+    max-width: 150px;
+    border: 2px solid black;
+  }
+
+  .statusbar {
+    background: #E0E0E0;
+    padding: 4px;
+    font-size: 12px;
+    border-top: 1px solid #000;
+  }
+
+  .memo {
+    background: #FFFFE0;
+    padding: 8px;
+    border: 1px solid black;
+  }
+
+  .memo p {
+    margin: 4px 0;
+  }
+</style>
 </head>
 <body>
 
-  <div class="window player-window">
-    <div class="title-bar">
-      <div class="title-bar-text">Vaporwave Radio Player</div>
-      <div class="title-bar-controls">
-        <button aria-label="Minimize"></button>
-        <button aria-label="Maximize"></button>
-        <button aria-label="Close"></button>
-      </div>
-    </div>
-    <div class="window-body">
-      <h1>Now Playing</h1>
-      <p><strong>Station:</strong> My Vaporwave Stream</p>
-      <!-- Replace the stream URL below with your own audio stream URL -->
-      <audio controls autoplay>
-        <source src="https://ice1.somafm.com/u80s-128-mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-      </audio>
+<!-- Player Window -->
+<div class="window">
+  <div class="header">
+    Nightwave Plaza
+    <div class="buttons">
+      <button>-</button><button>□</button><button>x</button>
     </div>
   </div>
+  <div class="menu-bar">
+    <a href="#">About</a>
+    <a href="#">Play History</a>
+    <a href="#">Ratings</a>
+    <a href="#">Support Us</a>
+  </div>
+  <div class="content">
+    <img src="https://i.plaza.one/artwork_986b6ba19b87a0719da7278d-1742284518.jpg" alt="artwork" class="cover">
+    <div class="player-meta">
+      <div><strong>Artist:</strong> Whalez</div>
+      <div><strong>Title:</strong> S U N D A Y</div>
+      <div><strong>Time:</strong> 02:12 / 05:18</div>
+      <div>
+        <button>Play</button>
+        <button>Like ❤️ (2)</button>
+        <button>User 👤</button>
+        <button>Settings ⚙️</button>
+      </div>
+    </div>
+  </div>
+  <div class="statusbar">
+    Listeners: 190
+  </div>
+</div>
+
+<!-- News Window -->
+<div class="window" style="width: 350px;">
+  <div class="header">
+    News
+    <div class="buttons">
+      <button>-</button><button>x</button>
+    </div>
+  </div>
+  <div class="content">
+    <div class="memo">
+      <p><strong>Login Issue</strong></p>
+      <p>Login issue has been fixed. You can now try logging into your account again. If you still can’t sign in, please contact support at <a href="mailto:mail@plaza.one">mail@plaza.one</a>.</p>
+      <p>Thank you for your patience!</p>
+      <div style="display: flex; justify-content: space-between;">
+        <span>mr. plaza</span><span>Apr 10, 2025</span>
+      </div>
+    </div>
+    <div style="margin-top: 8px;">
+      <input type="number" placeholder="Page" style="width: 50px;">
+      <button>➡️</button>
+      <button style="float: right;">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Taskbar -->
+<div class="taskbar">
+  <button>Nightwave Plaza</button>
+  <button>News</button>
+  <div class="local-time">4:29 PM</div>
+</div>
 
 </body>
 </html>
