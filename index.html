@@ -37,12 +37,17 @@ body {
 }
 
 .header .buttons button {
-  width: 16px;
-  height: 14px;
+  width: 20px;
+  height: 16px;
   margin-left: 2px;
   padding: 0;
   border: 1px solid #fff;
   background: #c0c0c0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  line-height: 1;
 }
 
 .content {
@@ -113,7 +118,6 @@ body {
     <div class="buttons">
       <button id="minimizeBtn">_</button>
       <button id="maximizeBtn">▢</button>
-      <button id="closeBtn">X</button>
     </div>
   </div>
   <div class="content">
@@ -185,12 +189,6 @@ minimizeBtn.addEventListener('click', () => {
 });
 taskbarAppBtn.addEventListener('click', () => {
   windowPlayer.style.display = (windowPlayer.style.display === 'none') ? 'block' : 'none';
-});
-
-// Close
-const closeBtn = document.getElementById('closeBtn');
-closeBtn.addEventListener('click', () => {
-  windowPlayer.remove();
 });
 
 // Maximize (Fullscreen toggle)
