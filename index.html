@@ -2,220 +2,185 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Retro 80s Player</title>
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<title>Win98 Radio Player</title>
 <style>
 body {
   margin: 0;
-  overflow: hidden;
   background-color: teal;
-  background-image: url('https://gif.plaza.one/67.gif');
-  font-family: sans-serif;
+  font-family: "MS Sans Serif", sans-serif;
 }
 
 /* Window styling */
 .window {
   position: absolute;
   width: 400px;
+  top: 50px;
+  left: 50px;
   border: 2px solid #000;
-  background: #C0C0C0;
-  box-shadow: 2px 2px #fff, -2px -2px #000;
-  z-index: 10;
+  background-color: #C0C0C0;
+  box-shadow: 2px 2px #404040;
+  z-index: 100;
 }
 
-.window .header {
-  background: linear-gradient(to bottom, #000080, #0000cd);
+.window-header {
+  background-color: navy;
   color: white;
-  padding: 4px;
-  cursor: move;
+  padding: 2px 4px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: move;
 }
 
-.window .header .buttons button {
-  width: 16px;
-  height: 16px;
-  margin-left: 2px;
-  padding: 0;
+.window-header .title {
+  font-weight: bold;
 }
 
-.window .content {
-  padding: 8px;
-  background: #fff;
+.window-header .buttons {
+  display: flex;
+  gap: 2px;
 }
 
-/* Taskbar styling */
+.window-content {
+  padding: 10px;
+}
+
+/* Retro button */
+.retro-btn {
+  background-color: #C0C0C0;
+  border: 2px solid #fff;
+  border-right-color: #404040;
+  border-bottom-color: #404040;
+  padding: 4px 12px;
+  font-family: "MS Sans Serif", sans-serif;
+  font-size: 13px;
+  color: black;
+  box-shadow: inset -1px -1px #808080, inset 1px 1px #fff;
+  outline: none;
+  cursor: pointer;
+  margin: 2px;
+}
+
+.retro-btn:active {
+  border: 2px solid #404040;
+  border-right-color: #fff;
+  border-bottom-color: #fff;
+  box-shadow: inset 1px 1px #808080, inset -1px -1px #fff;
+}
+
+/* Taskbar */
 .taskbar {
   position: fixed;
   bottom: 0;
-  width: 100%;
+  left: 0;
+  right: 0;
   height: 30px;
-  background: #C0C0C0;
-  border-top: 2px solid #000;
+  background-color: #C0C0C0;
+  border-top: 2px solid #fff;
+  border-bottom: 2px solid #404040;
   display: flex;
   align-items: center;
   padding: 0 4px;
 }
 
 .taskbar button {
-  margin-right: 4px;
+  flex: 0 0 auto;
 }
 
-.taskbar .local-time {
-  margin-left: auto;
-  padding: 0 8px;
-}
-
-.noselect {
-  user-select: none;
-}
-
-.hidden {
-  display: none !important;
-}
-
-.active-window {
-  z-index: 100;
-}
-
-/* Retro button style */
-.retro-btn {
-  border: 2px solid #000;
-  background: #C0C0C0;
-  box-shadow: 2px 2px #fff, -2px -2px #000;
+/* Taskbar button */
+.taskbar-btn {
+  display: flex;
+  align-items: center;
   padding: 2px 8px;
-  margin: 2px;
+  margin-right: 4px;
+  background-color: #C0C0C0;
+  border: 2px solid #fff;
+  border-right-color: #404040;
+  border-bottom-color: #404040;
+  font-family: "MS Sans Serif", sans-serif;
+  font-size: 12px;
 }
 
-.retro-btn:active {
-  box-shadow: inset 2px 2px #fff, inset -2px -2px #000;
+.taskbar-btn.active {
+  border: 2px solid #404040;
+  border-right-color: #fff;
+  border-bottom-color: #fff;
 }
-
 </style>
 </head>
 <body>
 
-<!-- Player Window -->
-<div id="player-window" class="window" style="top: 50px; left: 50px;">
-  <div class="header noselect">
-    <span>80s Music Player</span>
+<!-- Window -->
+<div id="playerWindow" class="window">
+  <div class="window-header">
+    <div class="title">Win98 Radio Player</div>
     <div class="buttons">
-      <button class="button-minimize">_</button>
-      <button class="button-maximize">□</button>
-      <button class="button-close">X</button>
+      <button id="minimizeBtn" class="retro-btn" style="width:20px;height:20px;">_</button>
     </div>
   </div>
-  <div class="content">
-    <p><strong>Now Playing:</strong> SomaFM Underground 80s</p>
-
-    <!-- Custom Player Buttons -->
-    <button id="playBtn" class="retro-btn">▶️ Play</button>
-    <button id="stopBtn" class="retro-btn">⏹ Stop</button>
-
-    <!-- Hidden Audio (no controls shown) -->
-    <audio id="audioPlayer" style="display:none;">
-      <source src="https://ice1.somafm.com/u80s-128-mp3" type="audio/mpeg">
-    </audio>
+  <div class="window-content">
+    <button id="playBtn" class="retro-btn">Play</button>
+    <button id="stopBtn" class="retro-btn">Stop</button>
+    <audio id="audioPlayer"></audio>
   </div>
 </div>
 
 <!-- Taskbar -->
 <div class="taskbar">
-  <button id="player-taskbar-btn" class="noselect active">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Music_Icon_Windows_95.png" alt="" width="16" height="16">
-    <span>80s Player</span>
-  </button>
-  <div class="local-time" id="localTime"></div>
+  <button id="taskbarBtn" class="taskbar-btn active">Radio Player</button>
 </div>
 
 <script>
-// Dragging windows
-let dragTarget = null;
-let offsetX = 0, offsetY = 0;
+// Draggable window
+const playerWindow = document.getElementById('playerWindow');
+const header = playerWindow.querySelector('.window-header');
+let isDragging = false, offsetX = 0, offsetY = 0;
 
-document.querySelectorAll('.window .header').forEach(header => {
-  header.addEventListener('mousedown', e => {
-    dragTarget = header.parentElement;
-    dragTarget.classList.add('active-window');
-    offsetX = e.clientX - dragTarget.offsetLeft;
-    offsetY = e.clientY - dragTarget.offsetTop;
-  });
+header.addEventListener('mousedown', e => {
+  isDragging = true;
+  offsetX = e.clientX - playerWindow.offsetLeft;
+  offsetY = e.clientY - playerWindow.offsetTop;
 });
-
+document.addEventListener('mouseup', () => isDragging = false);
 document.addEventListener('mousemove', e => {
-  if (dragTarget) {
-    dragTarget.style.left = (e.clientX - offsetX) + 'px';
-    dragTarget.style.top = (e.clientY - offsetY) + 'px';
+  if (isDragging) {
+    playerWindow.style.left = (e.clientX - offsetX) + 'px';
+    playerWindow.style.top = (e.clientY - offsetY) + 'px';
   }
 });
 
-document.addEventListener('mouseup', () => {
-  dragTarget = null;
-});
-
-// Minimize / Maximize / Close buttons
-document.querySelectorAll('.button-minimize').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const win = btn.closest('.window');
-    win.classList.add('hidden');
-  });
-});
-
-document.querySelectorAll('.button-maximize').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const win = btn.closest('.window');
-    if (win.dataset.maximized === 'true') {
-      win.style.top = '50px';
-      win.style.left = '50px';
-      win.style.width = '400px';
-      win.dataset.maximized = 'false';
-    } else {
-      win.style.top = '0';
-      win.style.left = '0';
-      win.style.width = '100%';
-      win.dataset.maximized = 'true';
-    }
-  });
-});
-
-document.querySelectorAll('.button-close').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const win = btn.closest('.window');
-    win.classList.add('hidden');
-  });
-});
-
-// Taskbar button toggle
-const taskbarBtn = document.getElementById('player-taskbar-btn');
-const playerWindow = document.getElementById('player-window');
-
-taskbarBtn.addEventListener('click', () => {
-  if (playerWindow.classList.contains('hidden')) {
-    playerWindow.classList.remove('hidden');
-  } else {
-    playerWindow.classList.add('hidden');
-  }
-});
-
-// Clock
-function updateTime() {
-  const now = new Date();
-  const timeStr = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-  document.getElementById('localTime').textContent = timeStr;
-}
-setInterval(updateTime, 1000);
-updateTime();
-
-// Play / Stop buttons
+// Audio controls
+const playBtn = document.getElementById('playBtn');
+const stopBtn = document.getElementById('stopBtn');
 const audio = document.getElementById('audioPlayer');
-document.getElementById('playBtn').addEventListener('click', () => {
+
+playBtn.addEventListener('click', () => {
+  audio.src = 'https://ice1.somafm.com/u80s-128-mp3';
   audio.play();
 });
-
-document.getElementById('stopBtn').addEventListener('click', () => {
+stopBtn.addEventListener('click', () => {
   audio.pause();
-  audio.currentTime = 0;
+  audio.src = '';
+});
+
+// Minimize & Taskbar
+const minimizeBtn = document.getElementById('minimizeBtn');
+const taskbarBtn = document.getElementById('taskbarBtn');
+
+minimizeBtn.addEventListener('click', () => {
+  playerWindow.style.display = 'none';
+  taskbarBtn.classList.remove('active');
+});
+
+taskbarBtn.addEventListener('click', () => {
+  const isVisible = playerWindow.style.display !== 'none';
+  if (isVisible) {
+    playerWindow.style.display = 'none';
+    taskbarBtn.classList.remove('active');
+  } else {
+    playerWindow.style.display = 'block';
+    taskbarBtn.classList.add('active');
+  }
 });
 </script>
 
