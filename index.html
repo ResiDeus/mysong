@@ -2,197 +2,105 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Nightwave Plaza Styled Page</title>
+<title>Nightwave Plaza - Custom Player</title>
 <style>
   body {
     background-color: teal;
-    background-image: url('https://gif.plaza.one/70.gif');
     font-family: sans-serif;
+    color: white;
     margin: 0;
-    color: black;
+    padding: 0;
   }
-
   .window {
     border: 2px solid #000;
-    background: #C0C0C0;
+    background-color: #C0C0C0;
     width: 450px;
-    margin: 10px auto;
-    box-shadow: 4px 4px #333;
+    margin: 20px auto;
+    padding: 10px;
   }
-
-  .window-small {
-    width: 350px;
-  }
-
   .header {
-    background: #000080;
+    background-color: navy;
     color: white;
     padding: 4px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     font-weight: bold;
   }
-
-  .buttons button {
-    background: gray;
-    border: 1px solid black;
-    width: 16px;
-    height: 16px;
-    margin-left: 2px;
-    cursor: pointer;
+  .cover {
+    width: 100%;
+    border: 2px solid #000;
   }
-
-  .menu-bar {
-    background: #E0E0E0;
-    padding: 4px;
-  }
-
-  .menu-bar a {
-    margin-right: 10px;
-    text-decoration: none;
-    color: black;
-    font-weight: bold;
-  }
-
-  .content {
-    padding: 8px;
-    background: white;
-  }
-
   .player-meta {
     margin-top: 10px;
+    background-color: #EEE;
+    color: black;
+    padding: 6px;
   }
-
-  .player-meta div {
-    margin-bottom: 4px;
+  button {
+    margin: 4px;
+    padding: 6px 10px;
+    background-color: #DDD;
+    border: 1px solid #000;
+    cursor: pointer;
   }
-
   .taskbar {
-    display: flex;
-    background: #C0C0C0;
-    border-top: 2px solid black;
-    padding: 4px;
     position: fixed;
     bottom: 0;
-    width: 100%;
+    left: 0;
+    right: 0;
+    background-color: #333;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 4px;
   }
-
   .taskbar button {
-    flex: 1;
-    margin-right: 4px;
-    padding: 4px;
-    background: gray;
-    border: 1px solid black;
-    cursor: pointer;
+    margin: 0 4px;
   }
-
-  .taskbar .local-time {
-    margin-left: auto;
-    padding: 4px;
-    background: white;
-    border: 1px solid black;
-    width: 60px;
-    text-align: center;
+  .news-window {
+    border: 2px solid #000;
+    background-color: #FFF;
+    color: black;
+    padding: 10px;
+    width: 350px;
+    margin: 20px auto;
   }
-
-  img.cover {
-    width: 100%;
-    max-width: 150px;
-    border: 2px solid black;
-    display: block;
-    margin-bottom: 8px;
-  }
-
-  .statusbar {
-    background: #E0E0E0;
-    padding: 4px;
-    font-size: 12px;
-    border-top: 1px solid #000;
-  }
-
-  .memo {
-    background: #FFFFE0;
-    padding: 8px;
-    border: 1px solid black;
-    margin-bottom: 8px;
-  }
-
-  .memo p {
-    margin: 4px 0;
-  }
-
-  .pagination input {
-    width: 50px;
-    margin-right: 4px;
-  }
-
-  .pagination button {
-    background: gray;
-    border: 1px solid black;
-    padding: 2px 6px;
-    cursor: pointer;
-  }
-
 </style>
 </head>
 <body>
 
 <!-- Player Window -->
 <div class="window">
-  <div class="header">
-    Nightwave Plaza
-    <div class="buttons">
-      <button title="Minimize">-</button><button title="Maximize">□</button><button title="Close">x</button>
+  <div class="header">Nightwave Plaza</div>
+  <img src="https://i.plaza.one/artwork_986b6ba19b87a0719da7278d-1742284518.jpg" alt="artwork" class="cover">
+
+  <!-- Audio Stream -->
+  <audio id="player" src="https://stream.plaza.one/stream" autoplay></audio>
+
+  <div class="player-meta">
+    <div><strong>Artist:</strong> Whalez</div>
+    <div><strong>Title:</strong> S U N D A Y</div>
+    <div><strong>Time:</strong> Streaming Live</div>
+
+    <div style="margin-top: 6px;">
+      <button onclick="document.getElementById('player').play()">▶ Play</button>
+      <button onclick="document.getElementById('player').pause()">⏸ Pause</button>
+      <button>❤️ Like (2)</button>
+      <button>👤 User</button>
+      <button>⚙️ Settings</button>
     </div>
   </div>
-  <div class="menu-bar">
-    <a href="#">About</a>
-    <a href="#">Play History</a>
-    <a href="#">Ratings</a>
-    <a href="#">Support Us</a>
-  </div>
-  <div class="content">
-    <img src="https://i.plaza.one/artwork_986b6ba19b87a0719da7278d-1742284518.jpg" alt="artwork" class="cover">
-    <div class="player-meta">
-      <div><strong>Artist:</strong> Whalez</div>
-      <div><strong>Title:</strong> S U N D A Y</div>
-      <div><strong>Time:</strong> 02:12 / 05:18</div>
-      <div style="margin-top: 6px;">
-        <button>▶ Play</button>
-        <button>❤️ Like (2)</button>
-        <button>👤 User</button>
-        <button>⚙️ Settings</button>
-      </div>
-    </div>
-  </div>
-  <div class="statusbar">
-    Listeners: 190
-  </div>
+
+  <div class="statusbar">Listeners: 190</div>
 </div>
 
 <!-- News Window -->
-<div class="window window-small">
-  <div class="header">
-    News
-    <div class="buttons">
-      <button title="Minimize">-</button><button title="Close">x</button>
-    </div>
-  </div>
-  <div class="content">
-    <div class="memo">
-      <p><strong>Login Issue</strong></p>
-      <p>Login issue has been fixed. You can now try logging into your account again. If you still can’t sign in, please contact support at <a href="mailto:mail@plaza.one">mail@plaza.one</a>.</p>
-      <p>Thank you for your patience!</p>
-      <div style="display: flex; justify-content: space-between; margin-top: 8px;">
-        <span>mr. plaza</span><span>Apr 10, 2025</span>
-      </div>
-    </div>
-    <div class="pagination">
-      <input type="number" placeholder="Page">
-      <button>➡️</button>
-      <button style="float: right;">Close</button>
-    </div>
+<div class="news-window">
+  <p><strong>Login Issue</strong></p>
+  <p>Login issue has been fixed. You can now try logging into your account again.  
+  If you still can’t sign in, please contact support at <a href="mailto:mail@plaza.one">mail@plaza.one</a>.</p>
+  <p>Thank you for your patience!</p>
+  <div style="display: flex; justify-content: space-between;">
+    <div>mr. plaza</div>
+    <div>Apr 10, 2025</div>
   </div>
 </div>
 
@@ -200,21 +108,8 @@
 <div class="taskbar">
   <button>Nightwave Plaza</button>
   <button>News</button>
-  <div class="local-time" id="localTime">4:29 PM</div>
+  <div style="margin-left: auto; padding-right: 8px;">4:29 PM</div>
 </div>
-
-<script>
-// Simple clock updater
-function updateTime() {
-  const now = new Date();
-  const hours = now.getHours();
-  const minutes = now.getMinutes();
-  const formatted = `${hours % 12 || 12}:${minutes.toString().padStart(2, '0')} ${hours >= 12 ? 'PM' : 'AM'}`;
-  document.getElementById('localTime').textContent = formatted;
-}
-setInterval(updateTime, 1000);
-updateTime();
-</script>
 
 </body>
 </html>
