@@ -78,6 +78,20 @@ body {
 .active-window {
   z-index: 100;
 }
+
+/* Retro button style */
+.retro-btn {
+  border: 2px solid #000;
+  background: #C0C0C0;
+  box-shadow: 2px 2px #fff, -2px -2px #000;
+  padding: 2px 8px;
+  margin: 2px;
+}
+
+.retro-btn:active {
+  box-shadow: inset 2px 2px #fff, inset -2px -2px #000;
+}
+
 </style>
 </head>
 <body>
@@ -94,7 +108,13 @@ body {
   </div>
   <div class="content">
     <p><strong>Now Playing:</strong> SomaFM Underground 80s</p>
-    <audio id="audioPlayer" controls style="width:100%;">
+
+    <!-- Custom Player Buttons -->
+    <button id="playBtn" class="retro-btn">▶️ Play</button>
+    <button id="stopBtn" class="retro-btn">⏹ Stop</button>
+
+    <!-- Hidden Audio -->
+    <audio id="audioPlayer">
       <source src="https://ice1.somafm.com/u80s-128-mp3" type="audio/mpeg">
       Your browser does not support the audio element.
     </audio>
@@ -187,6 +207,17 @@ function updateTime() {
 }
 setInterval(updateTime, 1000);
 updateTime();
+
+// Play / Stop buttons
+const audio = document.getElementById('audioPlayer');
+document.getElementById('playBtn').addEventListener('click', () => {
+  audio.play();
+});
+
+document.getElementById('stopBtn').addEventListener('click', () => {
+  audio.pause();
+  audio.currentTime = 0;
+});
 </script>
 
 </body>
