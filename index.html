@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Nightwave Plaza Clone</title>
+<title>Nightwave Plaza Styled Page</title>
 <style>
   body {
     background-color: teal;
@@ -20,6 +20,10 @@
     box-shadow: 4px 4px #333;
   }
 
+  .window-small {
+    width: 350px;
+  }
+
   .header {
     background: #000080;
     color: white;
@@ -27,7 +31,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    cursor: move;
+    font-weight: bold;
   }
 
   .buttons button {
@@ -36,12 +40,19 @@
     width: 16px;
     height: 16px;
     margin-left: 2px;
+    cursor: pointer;
+  }
+
+  .menu-bar {
+    background: #E0E0E0;
+    padding: 4px;
   }
 
   .menu-bar a {
     margin-right: 10px;
     text-decoration: none;
     color: black;
+    font-weight: bold;
   }
 
   .content {
@@ -73,6 +84,7 @@
     padding: 4px;
     background: gray;
     border: 1px solid black;
+    cursor: pointer;
   }
 
   .taskbar .local-time {
@@ -80,12 +92,16 @@
     padding: 4px;
     background: white;
     border: 1px solid black;
+    width: 60px;
+    text-align: center;
   }
 
   img.cover {
     width: 100%;
     max-width: 150px;
     border: 2px solid black;
+    display: block;
+    margin-bottom: 8px;
   }
 
   .statusbar {
@@ -99,11 +115,25 @@
     background: #FFFFE0;
     padding: 8px;
     border: 1px solid black;
+    margin-bottom: 8px;
   }
 
   .memo p {
     margin: 4px 0;
   }
+
+  .pagination input {
+    width: 50px;
+    margin-right: 4px;
+  }
+
+  .pagination button {
+    background: gray;
+    border: 1px solid black;
+    padding: 2px 6px;
+    cursor: pointer;
+  }
+
 </style>
 </head>
 <body>
@@ -113,7 +143,7 @@
   <div class="header">
     Nightwave Plaza
     <div class="buttons">
-      <button>-</button><button>□</button><button>x</button>
+      <button title="Minimize">-</button><button title="Maximize">□</button><button title="Close">x</button>
     </div>
   </div>
   <div class="menu-bar">
@@ -128,11 +158,11 @@
       <div><strong>Artist:</strong> Whalez</div>
       <div><strong>Title:</strong> S U N D A Y</div>
       <div><strong>Time:</strong> 02:12 / 05:18</div>
-      <div>
-        <button>Play</button>
-        <button>Like ❤️ (2)</button>
-        <button>User 👤</button>
-        <button>Settings ⚙️</button>
+      <div style="margin-top: 6px;">
+        <button>▶ Play</button>
+        <button>❤️ Like (2)</button>
+        <button>👤 User</button>
+        <button>⚙️ Settings</button>
       </div>
     </div>
   </div>
@@ -142,11 +172,11 @@
 </div>
 
 <!-- News Window -->
-<div class="window" style="width: 350px;">
+<div class="window window-small">
   <div class="header">
     News
     <div class="buttons">
-      <button>-</button><button>x</button>
+      <button title="Minimize">-</button><button title="Close">x</button>
     </div>
   </div>
   <div class="content">
@@ -154,12 +184,12 @@
       <p><strong>Login Issue</strong></p>
       <p>Login issue has been fixed. You can now try logging into your account again. If you still can’t sign in, please contact support at <a href="mailto:mail@plaza.one">mail@plaza.one</a>.</p>
       <p>Thank you for your patience!</p>
-      <div style="display: flex; justify-content: space-between;">
+      <div style="display: flex; justify-content: space-between; margin-top: 8px;">
         <span>mr. plaza</span><span>Apr 10, 2025</span>
       </div>
     </div>
-    <div style="margin-top: 8px;">
-      <input type="number" placeholder="Page" style="width: 50px;">
+    <div class="pagination">
+      <input type="number" placeholder="Page">
       <button>➡️</button>
       <button style="float: right;">Close</button>
     </div>
@@ -170,8 +200,21 @@
 <div class="taskbar">
   <button>Nightwave Plaza</button>
   <button>News</button>
-  <div class="local-time">4:29 PM</div>
+  <div class="local-time" id="localTime">4:29 PM</div>
 </div>
+
+<script>
+// Simple clock updater
+function updateTime() {
+  const now = new Date();
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+  const formatted = `${hours % 12 || 12}:${minutes.toString().padStart(2, '0')} ${hours >= 12 ? 'PM' : 'AM'}`;
+  document.getElementById('localTime').textContent = formatted;
+}
+setInterval(updateTime, 1000);
+updateTime();
+</script>
 
 </body>
 </html>
