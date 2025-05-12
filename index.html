@@ -2,111 +2,60 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Vaporwave Plaza</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Vaporwave Radio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Google Font for retro look -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <!-- Optional Retro Win98 UI Styles -->
+  <link rel="stylesheet" href="https://unpkg.com/98.css">
 
   <style>
-    /* Basic Reset + Background GIF */
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
-      font-family: 'Orbitron', sans-serif;
-    }
-
     body {
-      background: url('https://gif.plaza.one/69.gif') no-repeat center center fixed;
-      background-size: cover;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    /* Player Window Styling */
-    .player-window {
-      background: rgba(0, 0, 0, 0.7);
-      border: 2px solid #00ffff;
-      border-radius: 10px;
-      padding: 20px;
-      width: 300px;
-      box-shadow: 0 0 15px #00ffff;
+      margin: 0;
+      height: 100vh;
+      background: url('https://gif.plaza.one/70.gif') center center / cover no-repeat;
+      font-family: sans-serif;
       color: #fff;
+    }
+    .player-window {
+      width: 400px;
+      margin: 50px auto;
+      background-color: rgba(0,0,0,0.6);
+      border: 2px solid #00ffff;
+      border-radius: 8px;
+      padding: 20px;
+    }
+    .player-window h1 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #00ffff;
       text-align: center;
     }
-
-    .player-window h1 {
-      font-size: 1.5em;
-      margin-bottom: 15px;
-      color: #00ffff;
-      text-shadow: 0 0 5px #00ffff, 0 0 10px #ff00ff;
-    }
-
-    .cover-art {
+    audio {
       width: 100%;
-      border: 2px solid #00ffff;
-      margin-bottom: 15px;
-    }
-
-    .controls {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-    }
-
-    .button {
-      background: #00ffff;
-      color: #000;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-      text-transform: uppercase;
-      box-shadow: 0 0 5px #00ffff;
-    }
-
-    .button:hover {
-      background: #ff00ff;
-      box-shadow: 0 0 10px #ff00ff;
-      color: #fff;
     }
   </style>
 </head>
-
 <body>
 
-  <div class="player-window">
-    <h1>Vaporwave Plaza</h1>
-    <img class="cover-art" src="https://i.plaza.one/artwork_c0421475f85709aa46ebed91-1742281461.jpg" alt="Cover Art">
-
-    <div class="controls">
-      <button id="playBtn" class="button">Play</button>
-      <button id="pauseBtn" class="button">Pause</button>
+  <div class="window player-window">
+    <div class="title-bar">
+      <div class="title-bar-text">Vaporwave Radio Player</div>
+      <div class="title-bar-controls">
+        <button aria-label="Minimize"></button>
+        <button aria-label="Maximize"></button>
+        <button aria-label="Close"></button>
+      </div>
     </div>
-
-    <!-- Hidden audio element -->
-    <audio id="audio" loop>
-      <source src="https://ice1.somafm.com/groovesalad-128-mp3" type="audio/mpeg">
-    </audio>
+    <div class="window-body">
+      <h1>Now Playing</h1>
+      <p><strong>Station:</strong> My Vaporwave Stream</p>
+      <!-- Replace the stream URL below with your own audio stream URL -->
+      <audio controls autoplay>
+        <source src="https://ice1.somafm.com/u80s-128-mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
   </div>
-
-  <script>
-    const playBtn = document.getElementById('playBtn');
-    const pauseBtn = document.getElementById('pauseBtn');
-    const audio = document.getElementById('audio');
-
-    playBtn.addEventListener('click', () => {
-      audio.play();
-    });
-
-    pauseBtn.addEventListener('click', () => {
-      audio.pause();
-    });
-  </script>
 
 </body>
 </html>
