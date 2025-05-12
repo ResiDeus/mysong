@@ -3,208 +3,253 @@
 <head>
 <meta charset="UTF-8">
 <title>Win98 Radio Player</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
 body {
+  background-color: teal;
   margin: 0;
-  background: teal url('https://gif.plaza.one/67.gif') center center / cover no-repeat;
-  font-family: "Tahoma", sans-serif;
+  height: 100vh;
+  overflow: hidden;
 }
-
+.app-desktop {
+  width: 100%;
+  height: 100%;
+  background-image: url("https://gif.plaza.one/67.gif");
+  background-size: cover;
+  position: relative;
+  font-family: "MS Sans Serif", sans-serif;
+  font-size: 13px;
+}
 .window {
-  width: 450px;
-  background: #c0c0c0;
-  border: 2px solid #000;
   position: absolute;
-  z-index: 100;
   top: 100px;
   left: 100px;
+  width: 400px;
+  background: #c0c0c0;
+  border: 2px solid #000;
+  box-shadow: inset -1px -1px #fff, inset 1px 1px #808080;
+  z-index: 100;
 }
-
+.inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 .header {
-  background: linear-gradient(to bottom, #000080, #000060);
+  background: navy;
   color: white;
-  padding: 3px;
-  cursor: move;
+  padding: 2px 4px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  cursor: move;
 }
-
-.header .title {
-  font-weight: bold;
-  margin-left: 5px;
-}
-
 .header .buttons {
   display: flex;
 }
-
 .header .buttons button {
-  width: 18px;
-  height: 16px;
+  width: 16px;
+  height: 14px;
   margin-left: 2px;
   padding: 0;
-  border: 1px solid #fff;
   background: #c0c0c0;
+  border: 2px outset #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
-  line-height: 1;
 }
-
+.header .buttons button span {
+  display: block;
+  width: 8px;
+  height: 2px;
+  background: black;
+}
+.header .buttons button.maximize span {
+  width: 8px;
+  height: 8px;
+  border: 1px solid black;
+  background: none;
+}
+.menu-bar {
+  background: #c0c0c0;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #808080;
+  padding: 2px;
+  font-size: 13px;
+  display: flex;
+}
+.menu-item {
+  position: relative;
+  margin-right: 10px;
+  padding: 2px 6px;
+  border: 1px solid transparent;
+  cursor: default;
+}
+.menu-item:hover {
+  border: 1px solid #000;
+  background: #000080;
+  color: white;
+}
+.submenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #c0c0c0;
+  border: 2px solid #000;
+  z-index: 200;
+  min-width: 120px;
+}
+.menu-item:hover .submenu {
+  display: block;
+}
+.submenu-item {
+  padding: 3px 6px;
+  cursor: default;
+}
+.submenu-item:hover {
+  background: #000080;
+  color: white;
+}
 .content {
   padding: 10px;
-  background: #e0e0e0;
+  flex-grow: 1;
 }
-
-.player-buttons button {
-  margin: 2px;
-  width: 80px;
-}
-
-/* Taskbar styling like Plaza */
 .taskbar {
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 0;
-  right: 0;
+  width: 100%;
   height: 30px;
   background: #c0c0c0;
-  border-top: 2px solid #000;
+  border-top: 2px solid #fff;
+  border-bottom: 2px solid #808080;
   display: flex;
   align-items: center;
-  padding: 0 4px;
+  padding: 2px;
 }
-
-.divider {
-  width: 2px;
-  height: 70%;
-  background: gray;
-  margin: 0 6px;
-}
-
-.taskbar-btn {
-  display: flex;
-  align-items: center;
-  padding: 2px 6px;
+.taskbar button {
+  height: 24px;
   background: #c0c0c0;
-  border: 1px solid #fff;
-  font-size: 13px;
-}
-
-.taskbar-btn.active {
-  border: 2px inset #000;
-}
-
-.taskbar-btn img {
+  border: 2px outset #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
   margin-right: 4px;
 }
-
-.taskbar-time {
+.taskbar .divider {
+  width: 2px;
+  background: gray;
+  height: 60%;
+}
+.taskbar .local-time {
   margin-left: auto;
-  width: 60px;
-  text-align: center;
-  border: 1px solid #fff;
-  background: #c0c0c0;
-  padding: 2px 0;
-  font-size: 13px;
+  margin-right: 10px;
 }
 </style>
 </head>
-
 <body>
+<div class="app-desktop">
+  <div class="window" id="radioWindow">
+    <div class="inner">
+      <div class="header header-draggable">
+        <span>Radio Player</span>
+        <div class="buttons">
+          <button class="noselect button-minimize" id="minimizeBtn"><span></span></button>
+          <button class="noselect button-maximize maximize" id="maximizeBtn"><span></span></button>
+        </div>
+      </div>
 
-<div id="windowPlayer" class="window">
-  <div class="header">
-    <span class="title">Nightwave Plaza</span>
-    <div class="buttons">
-      <button id="minimizeBtn">_</button>
-      <button id="maximizeBtn">▢</button>
+      <div class="menu-bar">
+        <div class="menu-item">File
+          <div class="submenu">
+            <div class="submenu-item">Open Stream</div>
+            <div class="submenu-item">Save Playlist</div>
+            <div class="submenu-item">Exit</div>
+          </div>
+        </div>
+        <div class="menu-item">View
+          <div class="submenu">
+            <div class="submenu-item">Equalizer</div>
+            <div class="submenu-item">Visualizer</div>
+          </div>
+        </div>
+        <div class="menu-item">Help
+          <div class="submenu">
+            <div class="submenu-item">About</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <button id="playBtn">▶️ Play</button>
+        <button id="stopBtn">⏹️ Stop</button>
+        <audio id="radioPlayer" src="https://ice1.somafm.com/u80s-128-mp3"></audio>
+      </div>
     </div>
   </div>
-  <div class="content">
-    <div class="player-buttons text-center">
-      <button id="playBtn">▶ Play</button>
-      <button id="stopBtn">■ Stop</button>
-    </div>
-    <audio id="audioPlayer" src="https://ice1.somafm.com/u80s-128-mp3"></audio>
-  </div>
-</div>
 
-<div class="taskbar">
-  <div class="divider"></div>
-  <button id="taskbarAppBtn" class="taskbar-btn active">
-    <img src="https://win98icons.alexmeub.com/icons/png/media_cd_blue-0.png" width="16" height="16">
-    <span>Nightwave Plaza</span>
-  </button>
-  <div id="taskbarTime" class="taskbar-time"></div>
+  <div class="taskbar d-flex flex-nowrap">
+    <div style="flex: 0 0 10px;"><div class="divider mx-1"></div></div>
+    <button ontouchstart="" class="noselect mr-1 active" style="flex: 1 1 auto;">
+      <img src="https://icons.iconarchive.com/icons/itweek/retro/16/Radio-icon.png" alt="">
+      <div class="title ml-2">Radio Player</div>
+    </button>
+    <div class="local-time ml-auto" id="clock"></div>
+  </div>
 </div>
 
 <script>
-// Drag functionality
-const windowPlayer = document.getElementById('windowPlayer');
-const header = windowPlayer.querySelector('.header');
-let offsetX = 0, offsetY = 0, isDragging = false;
-
-header.addEventListener('mousedown', (e) => {
-  isDragging = true;
-  offsetX = e.clientX - windowPlayer.offsetLeft;
-  offsetY = e.clientY - windowPlayer.offsetTop;
-});
-document.addEventListener('mouseup', () => isDragging = false);
-document.addEventListener('mousemove', (e) => {
-  if (isDragging) {
-    windowPlayer.style.left = (e.clientX - offsetX) + 'px';
-    windowPlayer.style.top = (e.clientY - offsetY) + 'px';
-  }
-});
-
-// Play / Stop
+// Play/Stop buttons
 const playBtn = document.getElementById('playBtn');
 const stopBtn = document.getElementById('stopBtn');
-const audioPlayer = document.getElementById('audioPlayer');
+const player = document.getElementById('radioPlayer');
 
-playBtn.addEventListener('click', () => {
-  audioPlayer.play();
-});
-stopBtn.addEventListener('click', () => {
-  audioPlayer.pause();
-  audioPlayer.currentTime = 0;
-});
+playBtn.addEventListener('click', () => { player.play(); });
+stopBtn.addEventListener('click', () => { player.pause(); player.currentTime = 0; });
 
 // Clock
 function updateClock() {
+  const clock = document.getElementById('clock');
   const now = new Date();
-  const hours = now.getHours().toString().padStart(2,'0');
-  const mins = now.getMinutes().toString().padStart(2,'0');
-  document.getElementById('taskbarTime').innerText = `${hours}:${mins}`;
+  const hours = now.getHours().toString().padStart(2, '0');
+  const mins = now.getMinutes().toString().padStart(2, '0');
+  clock.textContent = `${hours}:${mins}`;
 }
 setInterval(updateClock, 1000);
 updateClock();
 
-// Minimize / Restore
-const minimizeBtn = document.getElementById('minimizeBtn');
-const taskbarAppBtn = document.getElementById('taskbarAppBtn');
+// Draggable window
+let isDragging = false, offsetX, offsetY;
+const windowEl = document.getElementById('radioWindow');
+const headerEl = windowEl.querySelector('.header');
 
-minimizeBtn.addEventListener('click', () => {
-  windowPlayer.style.display = 'none';
+headerEl.addEventListener('mousedown', (e) => {
+  isDragging = true;
+  offsetX = e.clientX - windowEl.offsetLeft;
+  offsetY = e.clientY - windowEl.offsetTop;
 });
-taskbarAppBtn.addEventListener('click', () => {
-  windowPlayer.style.display = (windowPlayer.style.display === 'none') ? 'block' : 'none';
+document.addEventListener('mousemove', (e) => {
+  if (isDragging) {
+    windowEl.style.left = `${e.clientX - offsetX}px`;
+    windowEl.style.top = `${e.clientY - offsetY}px`;
+  }
+});
+document.addEventListener('mouseup', () => { isDragging = false; });
+
+// Minimize
+document.getElementById('minimizeBtn').addEventListener('click', () => {
+  windowEl.style.display = 'none';
 });
 
-// Maximize (Fullscreen toggle)
-const maximizeBtn = document.getElementById('maximizeBtn');
-maximizeBtn.addEventListener('click', () => {
+// Maximize toggle fullscreen
+document.getElementById('maximizeBtn').addEventListener('click', () => {
   if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen();
+    windowEl.requestFullscreen();
   } else {
     document.exitFullscreen();
   }
 });
 </script>
-
 </body>
 </html>
