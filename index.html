@@ -106,6 +106,18 @@ body {
   border-right-color: #fff;
   border-bottom-color: #fff;
 }
+
+/* Clock styling */
+.clock {
+  margin-left: auto;
+  padding: 2px 8px;
+  background-color: #C0C0C0;
+  border: 2px solid #fff;
+  border-right-color: #404040;
+  border-bottom-color: #404040;
+  font-family: "MS Sans Serif", sans-serif;
+  font-size: 12px;
+}
 </style>
 </head>
 <body>
@@ -116,6 +128,7 @@ body {
     <div class="title">Win98 Radio Player</div>
     <div class="buttons">
       <button id="minimizeBtn" class="retro-btn" style="width:20px;height:20px;">_</button>
+      <button id="maximizeBtn" class="retro-btn" style="width:20px;height:20px;">▢</button>
     </div>
   </div>
   <div class="window-content">
@@ -128,6 +141,7 @@ body {
 <!-- Taskbar -->
 <div class="taskbar">
   <button id="taskbarBtn" class="taskbar-btn active">Radio Player</button>
+  <div id="clock" class="clock"></div>
 </div>
 
 <script>
@@ -163,7 +177,7 @@ stopBtn.addEventListener('click', () => {
   audio.src = '';
 });
 
-// Minimize & Taskbar
+// Minimize & Taskbar toggle
 const minimizeBtn = document.getElementById('minimizeBtn');
 const taskbarBtn = document.getElementById('taskbarBtn');
 
@@ -182,6 +196,49 @@ taskbarBtn.addEventListener('click', () => {
     taskbarBtn.classList.add('active');
   }
 });
+
+// Maximize button toggle (maximize/restore)
+const maximizeBtn = document.getElementById('maximizeBtn');
+let isMaximized = false;
+let prevPos = { top: '', left: '', width: '', height: '' };
+
+maximizeBtn.addEventListener('click', () => {
+  if (!isMaximized) {
+    // Save current position
+    prevPos = {
+      top: playerWindow.style.top,
+      left: playerWindow.style.left,
+      width: playerWindow.style.width,
+      height: playerWindow.style.height
+    };
+    playerWindow.style.top = '0';
+    playerWindow.style.left = '0';
+    playerWindow.style.width = '100%';
+    playerWindow.style.height = 'calc(100% - 30px)';
+    isMaximized = true;
+  } else {
+    // Restore
+    playerWindow.style.top = prevPos.top;
+    playerWindow.style.left = prevPos.left;
+    playerWindow.style.width = prevPos.width;
+    playerWindow.style.height = '';
+    isMaximized = false;
+  }
+});
+
+// Clock updater
+function updateClock() {
+  const clock = document.getElementById('clock');
+  const now = new Date();
+  let hours = now.getHours();
+  let minutes = now.getMinutes();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12 || 12; // Convert to 12-hour format
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+  clock.textContent = `${hours}:${minutes} ${ampm}`;
+}
+setInterval(updateClock, 1000);
+updateClock(); // initial call
 </script>
 
 </body>
