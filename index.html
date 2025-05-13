@@ -228,6 +228,7 @@ body {
         <button id="playBtn">▶️ Play</button>
         <button id="stopBtn">⏹️ Stop</button>
         <div id="nowPlaying" style="margin-top:8px; font-weight:bold;">Now Playing: Loading...</div>
+        <img id="artwork" src="" alt="Album Art" style="width:100px; height:100px; border:1px solid #000; image-rendering: pixelated; background: #c0c0c0;">
         <audio id="radioPlayer" src="http://radio.plaza.one/mp3"></audio>
       </div>
     </div>
@@ -326,6 +327,26 @@ maximizeBtn.addEventListener('click', () => {
   }
 });
 
+// --- 🎵 Artwork fetcher ---
+function fetchArtwork(query) {
+  const artworkEl = document.getElementById('artwork');
+  const placeholder = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/100px-No_image_available.svg.png';
+
+  fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&entity=song&limit=1`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.resultCount > 0) {
+        const artworkUrl = data.results[0].artworkUrl100.replace('100x100bb', '200x200bb');
+        artworkEl.src = artworkUrl;
+      } else {
+        artworkEl.src = placeholder;
+      }
+    })
+    .catch(() => {
+      artworkEl.src = placeholder;
+    });
+}
+  
 // ✅ 📻 Now Playing code — add here:
 function fetchNowPlaying() {
   fetch('https://radio.plaza.one/status-json.xsl')
@@ -341,6 +362,10 @@ function fetchNowPlaying() {
       }
 
       document.getElementById('nowPlaying').textContent = `Now Playing: ${title}`;
+      // ✅ Fetch artwork too!
+      if (title && title !== 'Unknown') {
+        fetchArtwork(title);
+      }
     })
     .catch(() => {
       document.getElementById('nowPlaying').textContent = 'Now Playing: (Unable to fetch)';
