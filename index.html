@@ -242,7 +242,12 @@ body {
           </div>
         </div>
         
+        //RADIO MP3
         <audio id="radioPlayer" src="http://radio.plaza.one/mp3"></audio>
+        <!-- ⏱️ Elapsed Time -->
+<div id="elapsedTime" style="margin-top: 10px; font-family: monospace;">
+  Listening Time: <span id="timeDisplay">00:00</span>
+</div>
       </div>
     </div>
   </div>
@@ -393,6 +398,45 @@ function fetchNowPlaying() {
 
 setInterval(fetchNowPlaying, 30000);
 fetchNowPlaying();  
+
+  // ⏱️ Listening Time Timer
+let seconds = 0;
+const timeDisplay = document.getElementById('timeDisplay');
+
+function updateTimeDisplay() {
+  const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+  const secs = (seconds % 60).toString().padStart(2, '0');
+  timeDisplay.textContent = `${mins}:${secs}`;
+  seconds++;
+}
+
+let timerInterval;
+
+function startTimer() {
+  clearInterval(timerInterval);
+  seconds = 0;
+  updateTimeDisplay();
+  timerInterval = setInterval(updateTimeDisplay, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+  seconds = 0;
+  timeDisplay.textContent = '00:00';
+}
+
+// Update play/stop buttons to handle timer
+playBtn.addEventListener('click', () => {
+  player.play();
+  startTimer();
+});
+
+stopBtn.addEventListener('click', () => {
+  player.pause();
+  player.currentTime = 0;
+  stopTimer();
+});
+  
 </script>
 </body>
 </html>
