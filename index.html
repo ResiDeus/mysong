@@ -324,6 +324,30 @@ maximizeBtn.addEventListener('click', () => {
     document.exitFullscreen();
   }
 });
+
+// ✅ 📻 Now Playing code — add here:
+function fetchNowPlaying() {
+  fetch('https://radio.plaza.one/status-json.xsl')
+    .then(response => response.json())
+    .then(data => {
+      const source = data.icestats.source;
+      let title = '';
+
+      if (Array.isArray(source)) {
+        title = source[0].title || source[0]['server_name'] || 'Unknown';
+      } else if (typeof source === 'object') {
+        title = source.title || source['server_name'] || 'Unknown';
+      }
+
+      document.getElementById('nowPlaying').textContent = `Now Playing: ${title}`;
+    })
+    .catch(() => {
+      document.getElementById('nowPlaying').textContent = 'Now Playing: (Unable to fetch)';
+    });
+}
+
+setInterval(fetchNowPlaying, 30000);
+fetchNowPlaying();  
 </script>
 </body>
 </html>
