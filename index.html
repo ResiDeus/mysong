@@ -406,27 +406,43 @@ volumeSlider.addEventListener('input', () => {
   player.volume = volumeSlider.value;
 });
 
-// Obtener canción actual
+// ✅ Obtener información de la canción que está sonando actualmente
 function fetchNowPlaying() {
+  // 🛰️ Llamada al servidor para obtener datos del streaming
   fetch('https://radio.plaza.one/status-json.xsl')
-    .then(response => response.json())
+    .then(response => response.json()) // 📦 Convertimos la respuesta a JSON
     .then(data => {
-      const source = data.icestats.source;
+      const source = data.icestats.source; // 🎙️ Accedemos a la fuente del stream
       let title = '';
 
+      // 🧠 Verificamos si hay múltiples fuentes (array)
       if (Array.isArray(source)) {
-        title = source[0].title || source[0]['server_name'] || 'Unknown';
+        title = source[0].title || source[0]['server_name'] || 'Unknown'; // 📻 Usamos el título o nombre del servidor
       } else if (typeof source === 'object') {
-        title = source.title || source['server_name'] || 'Unknown';
+        title = source.title || source['server_name'] || 'Unknown'; // 📻 Igual pero con objeto único
       }
 
-      document.getElementById('nowPlaying').textContent = `Now Playing: ${title}`;
+      // ✂️ Intentamos separar "Artista - Canción"
+      let artista = '';
+      let cancion = '';
+      if (title.includes(' - ')) {
+        [artista, cancion] = title.split(' - ');
+      } else {
+        artista = title; // Si no hay separación, usamos todo como artista
+      }
+
+      // 🖥️ Mostramos el texto en pantalla
+      document.getElementById('nowPlaying').textContent =
+        cancion ? `🎵 Canción: ${cancion}  🎤 Artista: ${artista}` : `Now Playing: ${title}`;
+
+      // 🖼️ Buscar carátula con la canción si hay, si no con el artista
       if (title && title !== 'Unknown') {
-        fetchArtwork(title); // Obtener arte también
+        fetchArtwork(cancion || artista); // 🎯 Buscar usando la mejor parte disponible
       }
     })
     .catch(() => {
-      document.getElementById('nowPlaying').textContent = 'Now Playing: (Unable to fetch)';
+      // ⚠️ Si falla la petición, mostramos mensaje de error
+      document.getElementById('nowPlaying').textContent = 'Now Playing: (No se pudo obtener)';
     });
 }
 
