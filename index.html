@@ -4,23 +4,27 @@
 <meta charset="UTF-8">
 <title>Boricua Radio</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Importa Bootstrap para estilos base -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
+/* Estilos generales del cuerpo */
 body {
-  background-color: teal;
+  background-color: teal; /* color de fondo */
   margin: 0;
-  height: 100vh;
-  overflow: hidden;
+  height: 100vh; /* altura completa de la pantalla */
+  overflow: hidden; /* oculta scroll */
 }
+/* Área de escritorio principal */
 .app-desktop {
   width: 100%;
   height: 100%;
-  background-image: url("https://finallylost.com/wp-content/uploads/2017/01/guajataca-tunnel-puerto-rico-01.gif");
+  background-image: url("https://finallylost.com/wp-content/uploads/2017/01/guajataca-tunnel-puerto-rico-01.gif"); /* fondo animado */
   background-size: cover;
   position: relative;
   font-family: "MS Sans Serif", sans-serif;
   font-size: 13px;
 }
+/* Ventana principal de la radio */
 .window {
   position: absolute;
   top: 100px;
@@ -28,23 +32,26 @@ body {
   width: 400px;
   background: #c0c0c0;
   border: 2px solid #000;
-  box-shadow: inset -1px -1px #fff, inset 1px 1px #808080;
+  box-shadow: inset -1px -1px #fff, inset 1px 1px #808080; /* efecto 3D */
   z-index: 100;
 }
+/* Contenedor interior con layout en columna */
 .inner {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
+/* Barra de título de la ventana */
 .header {
-  background: navy;
+  background: navy; /* fondo azul marino */
   color: white;
   padding: 2px 4px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  cursor: move;
+  cursor: move; /* permite arrastrar */
 }
+/* Botones de la esquina (minimizar, maximizar) */
 .header .buttons {
   display: flex;
 }
@@ -59,18 +66,21 @@ body {
   align-items: center;
   justify-content: center;
 }
+/* Estilo para los íconos de los botones */
 .header .buttons button span {
   display: block;
   width: 8px;
   height: 2px;
   background: black;
 }
+/* Icono del botón de maximizar */
 .header .buttons button.maximize span {
   width: 8px;
   height: 8px;
   border: 1px solid black;
   background: none;
 }
+/* Barra de menú tipo Windows */
 .menu-bar {
   background: #c0c0c0;
   border-top: 1px solid #fff;
@@ -80,6 +90,7 @@ body {
   display: flex;
   flex-wrap: wrap;
 }
+/* Elementos del menú */
 .menu-item {
   position: relative;
   margin-right: 10px;
@@ -87,11 +98,13 @@ body {
   border: 1px solid transparent;
   cursor: default;
 }
+/* Hover sobre items del menú */
 .menu-item:hover {
   border: 1px solid #000;
   background: #000080;
   color: white;
 }
+/* Submenú que aparece al hacer hover */
 .submenu {
   display: none;
   position: absolute;
@@ -102,9 +115,11 @@ body {
   z-index: 200;
   min-width: 120px;
 }
+/* Mostrar submenu al pasar mouse */
 .menu-item:hover .submenu {
   display: block;
 }
+/* Ítems individuales del submenú */
 .submenu-item {
   padding: 3px 6px;
   cursor: default;
@@ -113,14 +128,17 @@ body {
   background: #000080;
   color: white;
 }
+/* Contenido de la ventana */
 .content {
   padding: 10px;
   flex-grow: 1;
 }
+/* Estilo para botones dentro del contenido */
 .content button {
   margin-right: 6px;
   padding: 6px 12px;
 }
+/* Barra de tareas estilo Windows 95 */
 .taskbar {
   position: fixed;
   bottom: 0;
@@ -134,8 +152,9 @@ body {
   align-items: center;
   padding: 2px;
   z-index: 999;
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom); /* para móviles */
 }
+/* Botones de la barra de tareas */
 .taskbar button {
   height: 24px;
   background: #c0c0c0;
@@ -148,11 +167,13 @@ body {
 .taskbar button.active {
   border: 2px inset #808080;
 }
+/* Separador vertical */
 .taskbar .divider {
   width: 2px;
   background: gray;
   height: 60%;
 }
+/* Reloj */
 .taskbar .local-time {
   margin-left: auto;
   margin-right: 10px;
@@ -161,13 +182,13 @@ body {
   width: 16px;
   height: 16px;
 }
-
+/* Slider de volumen */
 #volumeSlider {
   width: 30px;
   margin: auto;
 }
-  
-/* 📱 MOBILE FRIENDLY ADJUSTMENTS */
+
+/* 📱 Estilos responsivos para móviles */
 @media (max-width: 600px) {
   .window {
     width: 90%;
@@ -193,10 +214,12 @@ body {
 </style>
 </head>
 <body>
+<!-- Escritorio de la app -->
 <div class="app-desktop">
+  <!-- Ventana principal -->
   <div class="window" id="radioWindow">
     <div class="inner">
-
+      <!-- Encabezado con icono, título y botones -->
       <div class="header header-draggable noselect">
         <div class="d-flex align-items-center">
           <img src="https://cdn-icons-png.flaticon.com/512/323/323292.png" alt="icon" style="width:16px; height:16px; margin-right:4px; image-rendering: pixelated;">
@@ -208,6 +231,7 @@ body {
         </div>
       </div>
 
+      <!-- Barra de menú estilo Win95 -->
       <div class="menu-bar">
         <div class="menu-item">File
           <div class="submenu">
@@ -229,64 +253,73 @@ body {
         </div>
       </div>
 
+      <!-- Contenido: Botones de control, info de canción, arte del álbum -->
       <div class="content">
         <button id="playBtn">▶️ Play</button>
         <button id="stopBtn">⏹️ Stop</button>
         <div id="nowPlaying" style="margin-top:8px; font-weight:bold;">Now Playing: Loading...</div>
         <div style="display: flex; align-items: center; margin-top: 10px;">
+          <!-- Imagen de arte del álbum -->
           <img id="artwork" src="" alt="Album Art" style="width:100px; height:100px; border:1px solid #000; image-rendering: pixelated; background: #c0c0c0;">
-  
+
+          <!-- Control de volumen -->
           <div style="display: flex; align-items: center; margin-left: 12px;">
             <img src="https://custom-doodle.com/wp-content/uploads/doodle/windows-95-spin-disc-icon-doodle/windows-95-spin-disc-icon-doodle.gif" alt="Volume" style="width:20px; height:20px; margin-right:6px; image-rendering: pixelated;">
             <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1" style="width:80px;">
           </div>
         </div>
         
-        <!-- ⏱️ RADIO MP3 -->
+        <!-- Reproductor de audio -->
         <audio id="radioPlayer" src="http://radio.plaza.one/mp3"></audio>
         
-        <!-- ⏱️ Elapsed Time -->
-<div id="elapsedTime" style="margin-top: 10px; font-family: monospace;">
-  Listening Time: <span id="timeDisplay">00:00</span>
-</div>
+        <!-- Temporizador de tiempo escuchado -->
+        <div id="elapsedTime" style="margin-top: 10px; font-family: monospace;">
+          Listening Time: <span id="timeDisplay">00:00</span>
+        </div>
       </div>
     </div>
   </div>
 
-<div class="taskbar d-flex flex-nowrap">
-  <div style="flex: 0 0 10px;"><div class="divider mx-1"></div></div>
-  <button id="taskbarBtn" class="noselect mr-1 active" style="flex: 0 0 auto; padding: 2px 6px; max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-    <img src="https://cdn-icons-png.flaticon.com/512/323/323292.png" alt="">
-    <div class="title ml-2">Boricua Radio</div>
-  </button>
-  <button id="clockBtn" class="noselect ml-auto" style="height:24px; background:#c0c0c0; border:2px outset #fff; padding:0 10px;">
-    <span id="clock"></span>
-  </button>
-</div>
+  <!-- Barra de tareas tipo Win95 -->
+  <div class="taskbar d-flex flex-nowrap">
+    <div style="flex: 0 0 10px;"><div class="divider mx-1"></div></div>
+    <button id="taskbarBtn" class="noselect mr-1 active" style="flex: 0 0 auto; padding: 2px 6px; max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+      <img src="https://cdn-icons-png.flaticon.com/512/323/323292.png" alt="">
+      <div class="title ml-2">Boricua Radio</div>
+    </button>
+    <button id="clockBtn" class="noselect ml-auto" style="height:24px; background:#c0c0c0; border:2px outset #fff; padding:0 10px;">
+      <span id="clock"></span>
+    </button>
+  </div>
 
 <script>
-// Play/Stop buttons
+// --- 🟢 Funcionalidad JS ---
+
+// Botones de reproducción
 const playBtn = document.getElementById('playBtn');
 const stopBtn = document.getElementById('stopBtn');
 const player = document.getElementById('radioPlayer');
 
+// Reproducir
 playBtn.addEventListener('click', () => { player.play(); });
+
+// Detener y reiniciar
 stopBtn.addEventListener('click', () => { player.pause(); player.currentTime = 0; });
 
-// Clock
+// Reloj en tiempo real
 function updateClock() {
   const now = new Date();
   let hours = now.getHours();
   const minutes = now.getMinutes().toString().padStart(2, '0');
   const ampm = hours >= 12 ? 'PM' : 'AM';
   hours = hours % 12;
-  hours = hours ? hours : 12; // 0 -> 12
-  document.getElementById('clock').textContent = ${hours}:${minutes} ${ampm};
+  hours = hours ? hours : 12;
+  document.getElementById('clock').textContent = `${hours}:${minutes} ${ampm}`;
 }
 setInterval(updateClock, 1000);
 updateClock();
 
-// Draggable window (Mouse + Touch)
+// Hacer la ventana arrastrable (mouse y touch)
 let isDragging = false, offsetX, offsetY;
 const windowEl = document.getElementById('radioWindow');
 const headerEl = windowEl.querySelector('.header');
@@ -302,14 +335,15 @@ function duringDrag(e) {
   if (isDragging) {
     const clientX = e.touches ? e.touches[0].clientX : e.clientX;
     const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    windowEl.style.left = ${clientX - offsetX}px;
-    windowEl.style.top = ${clientY - offsetY}px;
+    windowEl.style.left = `${clientX - offsetX}px`;
+    windowEl.style.top = `${clientY - offsetY}px`;
   }
 }
 function endDrag() {
   isDragging = false;
 }
 
+// Eventos de arrastre
 headerEl.addEventListener('mousedown', startDrag);
 headerEl.addEventListener('touchstart', startDrag);
 document.addEventListener('mousemove', duringDrag);
@@ -317,7 +351,7 @@ document.addEventListener('touchmove', duringDrag);
 document.addEventListener('mouseup', endDrag);
 document.addEventListener('touchend', endDrag);
 
-// Minimize / Restore
+// Minimizar y restaurar ventana desde barra de tareas
 const minimizeBtn = document.getElementById('minimizeBtn');
 const taskbarBtn = document.getElementById('taskbarBtn');
 
@@ -336,7 +370,7 @@ taskbarBtn.addEventListener('click', () => {
   }
 });
 
-// Maximize toggles full screen on the website
+// Maximizar ventana a pantalla completa
 const maximizeBtn = document.getElementById('maximizeBtn');
 maximizeBtn.addEventListener('click', () => {
   if (!document.fullscreenElement) {
@@ -346,12 +380,12 @@ maximizeBtn.addEventListener('click', () => {
   }
 });
 
-// --- 🎵 Artwork fetcher ---
+// Obtener imagen del álbum desde iTunes
 function fetchArtwork(query) {
   const artworkEl = document.getElementById('artwork');
   const placeholder = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/100px-No_image_available.svg.png';
 
-  fetch(https://itunes.apple.com/search?term=${encodeURIComponent(query)}&entity=song&limit=1)
+  fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&entity=song&limit=1`)
     .then(res => res.json())
     .then(data => {
       if (data.resultCount > 0) {
@@ -366,13 +400,13 @@ function fetchArtwork(query) {
     });
 }
 
-// 🎚️ Volume control
+// Control de volumen
 const volumeSlider = document.getElementById('volumeSlider');
 volumeSlider.addEventListener('input', () => {
   player.volume = volumeSlider.value;
 });
-  
-// ✅ 📻 Now Playing code — add here:
+
+// Obtener canción actual
 function fetchNowPlaying() {
   fetch('https://radio.plaza.one/status-json.xsl')
     .then(response => response.json())
@@ -386,10 +420,9 @@ function fetchNowPlaying() {
         title = source.title || source['server_name'] || 'Unknown';
       }
 
-      document.getElementById('nowPlaying').textContent = Now Playing: ${title};
-      // ✅ Fetch artwork too!
+      document.getElementById('nowPlaying').textContent = `Now Playing: ${title}`;
       if (title && title !== 'Unknown') {
-        fetchArtwork(title);
+        fetchArtwork(title); // Obtener arte también
       }
     })
     .catch(() => {
@@ -397,17 +430,17 @@ function fetchNowPlaying() {
     });
 }
 
-setInterval(fetchNowPlaying, 30000);
-fetchNowPlaying();  
+setInterval(fetchNowPlaying, 30000); // cada 30 segundos
+fetchNowPlaying();
 
-  // ⏱️ Listening Time Timer
+// Temporizador de escucha
 let seconds = 0;
 const timeDisplay = document.getElementById('timeDisplay');
 
 function updateTimeDisplay() {
   const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
   const secs = (seconds % 60).toString().padStart(2, '0');
-  timeDisplay.textContent = ${mins}:${secs};
+  timeDisplay.textContent = `${mins}:${secs}`;
   seconds++;
 }
 
@@ -426,7 +459,7 @@ function stopTimer() {
   timeDisplay.textContent = '00:00';
 }
 
-// Update play/stop buttons to handle timer
+// Inicia/parar temporizador junto con la música
 playBtn.addEventListener('click', () => {
   player.play();
   startTimer();
@@ -437,7 +470,6 @@ stopBtn.addEventListener('click', () => {
   player.currentTime = 0;
   stopTimer();
 });
-  
 </script>
 </body>
 </html>
