@@ -406,43 +406,43 @@ volumeSlider.addEventListener('input', () => {
   player.volume = volumeSlider.value;
 });
 
-// ✅ Obtener información de la canción que está sonando actualmente
+// 🎵 Obtener información de la canción actual
 function fetchNowPlaying() {
-  // 🛰️ Llamada al servidor para obtener datos del streaming
   fetch('https://radio.plaza.one/status-json.xsl')
-    .then(response => response.json()) // 📦 Convertimos la respuesta a JSON
+    .then(response => response.json())
     .then(data => {
-      const source = data.icestats.source; // 🎙️ Accedemos a la fuente del stream
+      const source = data.icestats.source;
       let title = '';
 
-      // 🧠 Verificamos si hay múltiples fuentes (array)
+      // ✅ Obtener el título desde el stream (puede venir en un arreglo o solo)
       if (Array.isArray(source)) {
-        title = source[0].title || source[0]['server_name'] || 'Unknown'; // 📻 Usamos el título o nombre del servidor
+        title = source[0].title || source[0]['server_name'] || 'Unknown';
       } else if (typeof source === 'object') {
-        title = source.title || source['server_name'] || 'Unknown'; // 📻 Igual pero con objeto único
+        title = source.title || source['server_name'] || 'Unknown';
       }
 
-      // ✂️ Intentamos separar "Artista - Canción"
-      let artista = '';
-      let cancion = '';
+      // 🎵 Dividir el título si contiene un separador válido
+      let artist = '';
+      let song = '';
       if (title.includes(' - ')) {
-        [artista, cancion] = title.split(' - ');
+        [artist, song] = title.split(' - ');
       } else {
-        artista = title; // Si no hay separación, usamos todo como artista
+        artist = title; // Si no hay "-", todo el título es el artista o nombre genérico
       }
 
-      // 🖥️ Mostramos el texto en pantalla
-      document.getElementById('nowPlaying').textContent =
-        cancion ? `🎵 Canción: ${cancion}  🎤 Artista: ${artista}` : `Now Playing: ${title}`;
+      // 🎤 Mostrar información completa en pantalla
+      const nowPlayingText = song
+        ? `🎵 Song: ${song}  🎤 Artist: ${artist}`
+        : `Now Playing: ${artist}`;
+      document.getElementById('nowPlaying').textContent = nowPlayingText;
 
-      // 🖼️ Buscar carátula con la canción si hay, si no con el artista
+      // 🎨 Buscar portada usando el título original
       if (title && title !== 'Unknown') {
-        fetchArtwork(cancion || artista); // 🎯 Buscar usando la mejor parte disponible
+        fetchArtwork(title);
       }
     })
     .catch(() => {
-      // ⚠️ Si falla la petición, mostramos mensaje de error
-      document.getElementById('nowPlaying').textContent = 'Now Playing: (No se pudo obtener)';
+      document.getElementById('nowPlaying').textContent = 'Now Playing: (Unable to fetch)';
     });
 }
 
