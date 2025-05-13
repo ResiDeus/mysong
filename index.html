@@ -406,7 +406,6 @@ volumeSlider.addEventListener('input', () => {
   player.volume = volumeSlider.value;
 });
 
-// 🎵 Obtener información de la canción actual
 function fetchNowPlaying() {
   fetch('https://radio.plaza.one/status-json.xsl')
     .then(response => response.json())
@@ -414,34 +413,45 @@ function fetchNowPlaying() {
       const source = data.icestats.source;
       let title = '';
 
-      // ✅ Obtener el título desde el stream (puede venir en un arreglo o solo)
+      // Extraer título
       if (Array.isArray(source)) {
         title = source[0].title || source[0]['server_name'] || 'Unknown';
       } else if (typeof source === 'object') {
         title = source.title || source['server_name'] || 'Unknown';
       }
 
-      // 🎵 Dividir el título si contiene un separador válido
+      console.log("Título recibido:", title); // 👈 IMPORTANTE
+
+      // Dividir artista y canción si es posible
       let artist = '';
       let song = '';
+
       if (title.includes(' - ')) {
         [artist, song] = title.split(' - ');
       } else {
-        artist = title; // Si no hay "-", todo el título es el artista o nombre genérico
+        artist = title; // Si no se puede dividir, todo es artista
+        song = '';      // No hay canción
       }
 
-      // 🎤 Mostrar información completa en pantalla
-      const nowPlayingText = song
-        ? `🎵 Song: ${song}  🎤 Artist: ${artist}`
-        : `Now Playing: ${artist}`;
+      // Mostrar en el DOM
+      let nowPlayingText = '';
+      if (artist && song) {
+        nowPlayingText = `🎵 Song: ${song}  🎤 Artist: ${artist}`;
+      } else if (artist) {
+        nowPlayingText = `Now Playing: ${artist}`;
+      } else {
+        nowPlayingText = `Now Playing: Unknown`;
+      }
+
       document.getElementById('nowPlaying').textContent = nowPlayingText;
 
-      // 🎨 Buscar portada usando el título original
+      // Buscar portada
       if (title && title !== 'Unknown') {
         fetchArtwork(title);
       }
     })
-    .catch(() => {
+    .catch((err) => {
+      console.error("Error al obtener la canción:", err);
       document.getElementById('nowPlaying').textContent = 'Now Playing: (Unable to fetch)';
     });
 }
