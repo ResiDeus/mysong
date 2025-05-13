@@ -233,12 +233,13 @@ body {
         <button id="playBtn">▶️ Play</button>
         <button id="stopBtn">⏹️ Stop</button>
         <div id="nowPlaying" style="margin-top:8px; font-weight:bold;">Now Playing: Loading...</div>
-        <img id="artwork" src="" alt="Album Art" style="width:100px; height:100px; border:1px solid #000; image-rendering: pixelated; background: #c0c0c0;">
-        
-        <!-- 🔊 Volume control with icon -->
-        <div class="d-flex align-items-center mt-2">
-          <img src="https://custom-doodle.com/wp-content/uploads/doodle/windows-95-spin-disc-icon-doodle/windows-95-spin-disc-icon-doodle.gif" alt="Volume" style="width:16px; height:16px; margin-right:6px; image-rendering: pixelated;">
-          <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1" style="width:80%;">
+        <div style="display: flex; align-items: center; margin-top: 10px;">
+          <img id="artwork" src="" alt="Album Art" style="width:100px; height:100px; border:1px solid #000; image-rendering: pixelated; background: #c0c0c0;">
+  
+          <div style="display: flex; align-items: center; margin-left: 12px;">
+            <img src="https://custom-doodle.com/wp-content/uploads/doodle/windows-95-spin-disc-icon-doodle/windows-95-spin-disc-icon-doodle.gif" alt="Volume" style="width:20px; height:20px; margin-right:6px; image-rendering: pixelated;">
+            <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1" style="width:80px;">
+          </div>
         </div>
         
         <audio id="radioPlayer" src="http://radio.plaza.one/mp3"></audio>
