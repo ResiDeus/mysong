@@ -383,20 +383,23 @@ maximizeBtn.addEventListener('click', () => {
 // Obtener imagen del álbum desde iTunes
 function fetchArtwork(query) {
   const artworkEl = document.getElementById('artwork');
-  const placeholder = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/100px-No_image_available.svg.png';
+  const placeholder = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/200px-No_image_available.svg.png';
 
   fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&entity=song&limit=1`)
     .then(res => res.json())
     .then(data => {
       if (data.resultCount > 0) {
-        const artworkUrl = data.results[0].artworkUrl100.replace('100x100bb', '200x200bb');
+        const artworkUrl = data.results[0].artworkUrl100.replace('100x100bb', '300x300bb');
         artworkEl.src = artworkUrl;
+        artworkEl.style.display = 'block';
       } else {
         artworkEl.src = placeholder;
+        artworkEl.style.display = 'block';
       }
     })
     .catch(() => {
       artworkEl.src = placeholder;
+      artworkEl.style.display = 'block';
     });
 }
 
