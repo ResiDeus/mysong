@@ -383,7 +383,7 @@ maximizeBtn.addEventListener('click', () => {
 // Obtener imagen del álbum desde iTunes
 function fetchArtwork(query) {
   const artworkEl = document.getElementById('artwork');
-  const placeholder = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/200px-No_image_available.svg.png';
+  const placeholder = 'https://media.tenor.com/VuHq_xlAM-QAAAAM/puerto-rico-boricua.gif';
 
   fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&entity=song&limit=1`)
     .then(res => res.json())
