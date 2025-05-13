@@ -234,6 +234,11 @@ body {
         <button id="stopBtn">⏹️ Stop</button>
         <div id="nowPlaying" style="margin-top:8px; font-weight:bold;">Now Playing: Loading...</div>
         <img id="artwork" src="" alt="Album Art" style="width:100px; height:100px; border:1px solid #000; image-rendering: pixelated; background: #c0c0c0;">
+        
+        <!-- 🔊 Volume Slider (Horizontal) -->
+        <label for="volumeSlider"><b>Volume</b></label><br>
+        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1" style="width: 80%;">
+        
         <audio id="radioPlayer" src="http://radio.plaza.one/mp3"></audio>
       </div>
     </div>
@@ -371,44 +376,6 @@ function fetchArtwork(query) {
 const volumeSlider = document.getElementById('volumeSlider');
 volumeSlider.addEventListener('input', () => {
   player.volume = volumeSlider.value;
-});
-
-// 🖱️ Make volume window draggable (same as main window)
-const volumeWindowEl = document.getElementById('volumeWindow');
-const volHeaderEl = volumeWindowEl.querySelector('.header');
-
-let isVolDragging = false, volOffsetX, volOffsetY;
-
-function startVolDrag(e) {
-  isVolDragging = true;
-  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-  volOffsetX = clientX - volumeWindowEl.offsetLeft;
-  volOffsetY = clientY - volumeWindowEl.offsetTop;
-}
-function duringVolDrag(e) {
-  if (isVolDragging) {
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    volumeWindowEl.style.left = `${clientX - volOffsetX}px`;
-    volumeWindowEl.style.top = `${clientY - volOffsetY}px`;
-  }
-}
-function endVolDrag() {
-  isVolDragging = false;
-}
-
-volHeaderEl.addEventListener('mousedown', startVolDrag);
-volHeaderEl.addEventListener('touchstart', startVolDrag);
-document.addEventListener('mousemove', duringVolDrag);
-document.addEventListener('touchmove', duringVolDrag);
-document.addEventListener('mouseup', endVolDrag);
-document.addEventListener('touchend', endVolDrag);
-
-// 🕹️ Minimize button on volume window
-const volMinimizeBtn = document.getElementById('volMinimize');
-volMinimizeBtn.addEventListener('click', () => {
-  volumeWindowEl.style.display = 'none';
 });
   
 // ✅ 📻 Now Playing code — add here:
